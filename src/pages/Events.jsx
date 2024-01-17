@@ -1,29 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // id fyrir events?
-// þarf að setja inn local storage!!!
 function Event(){
-    const [input, setInput] = useState('');
-    // useEffect() gera það dæmi her
-    function handleSubmit(e){
-        e.preventDefault();
-        createElement();
+    let oldData;
+    let content;
+    if(content){
+        oldData = JSON.parse(localStorage.getItem('event'));
     }
-    function createElement(){
+    const [input, setInput] = useState(oldData);
+    function HandleSubmit(e){
+        e.preventDefault();
         const parent = document.querySelector("ul");
         const evt = document.createElement("li");
-        evt.textContent = input
+        content = input;
+        evt.textContent = content;
         parent.appendChild(evt);
-        window.localStorage.setItem(parent, evt);
-        //get item set item eh staðar?
     }
-
-    function getOldEvents(){
-        // const prev = window.localStorage.getItem(parent);
-        // þarf að skoða betur hvernig þetta er
-    }
-
+    useEffect(() =>{
+        localStorage.setItem('event',JSON.stringify(content))
+    }, [content]);
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
             <div className="card">
                 <input type="string" value={input} onInput={e => setInput(e.target.value)} />
             </div>
