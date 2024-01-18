@@ -1,48 +1,38 @@
 import { useEffect, useState } from "react";
-
+import './Events.css';
 function Event() {
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState('');
     const [data, setData] = useState([]);
+
+    useEffect(()=>{
+        data.length > 0 && window.localStorage.setItem("event", JSON.stringify(data));
+    },[data]);
+
+    useEffect(() => {
+        const storedData = JSON.parse(window.localStorage.getItem("event"));
+        if (!!storedData) setData(storedData);
+    }, []);
 
     function HandleSubmit(e) {
         e.preventDefault();
-        const parent = document.querySelector("ul");
-        const evt = document.createElement("li");
-        const temp = input;
-        evt.textContent = temp;
-        parent.appendChild(evt);
-        setData(prevData => [...prevData, input]);
-        console.log(data);
+        input && setData([...data, input]);
         setInput('');
     }
 
-    useEffect(() => {
-        const storedData = window.localStorage.getItem("event");
-        // console.log(storedData);
-        if(storedData){
-            setData(JSON.parse(storedData));
-        } else {
-            setData([])
-        }
-    }, []);
-
-    useEffect(() => {
-        window.localStorage.setItem("event", JSON.stringify(data));
-    }, [data]);
-
     return (
         <form onSubmit={HandleSubmit}>
-            <div className="card">
+            <div>
                 <input type="text" value={input} onChange={e => setInput(e.target.value)} />
             </div>
             <div>
                 <button type="submit">Create event</button>
             </div>
             <div>
-                <ul>
-                    {data.map((data, i) =>(
-                        <li key={i}>{data}</li>
-                    ))}
+                <ul className="card-container">
+                    {data.map((item, ke) => (
+                       <div key={ke} className="card">{item}</div>
+                    ))
+                    }
                 </ul>
             </div>
         </form>
