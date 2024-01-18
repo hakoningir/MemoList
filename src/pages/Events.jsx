@@ -1,36 +1,52 @@
 import { useEffect, useState } from "react";
-// id fyrir events?
-function Event(){
-    let oldData;
-    let content;
-    if(content){
-        oldData = JSON.parse(localStorage.getItem('event'));
-    }
-    const [input, setInput] = useState(oldData);
-    function HandleSubmit(e){
+
+function Event() {
+    const [input, setInput] = useState("");
+    const [data, setData] = useState([]);
+
+    function HandleSubmit(e) {
         e.preventDefault();
         const parent = document.querySelector("ul");
         const evt = document.createElement("li");
-        content = input;
-        evt.textContent = content;
+        const temp = input;
+        evt.textContent = temp;
         parent.appendChild(evt);
+        setData(prevData => [...prevData, input]);
+        console.log(data);
+        setInput('');
     }
-    useEffect(() =>{
-        localStorage.setItem('event',JSON.stringify(content))
-    }, [content]);
+
+    useEffect(() => {
+        const storedData = window.localStorage.getItem("event");
+        // console.log(storedData);
+        if(storedData){
+            setData(JSON.parse(storedData));
+        } else {
+            setData([])
+        }
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem("event", JSON.stringify(data));
+    }, [data]);
+
     return (
         <form onSubmit={HandleSubmit}>
             <div className="card">
-                <input type="string" value={input} onInput={e => setInput(e.target.value)} />
+                <input type="text" value={input} onChange={e => setInput(e.target.value)} />
             </div>
             <div>
-                <button type="submit" value="Submit"> Create event</button>
+                <button type="submit">Create event</button>
             </div>
             <div>
-                <ul/>
+                <ul>
+                    {data.map((data, i) =>(
+                        <li key={i}>{data}</li>
+                    ))}
+                </ul>
             </div>
         </form>
-    )
+    );
 }
 
 export default Event;
