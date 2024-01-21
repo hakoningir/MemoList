@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import './Events.css';
 function Event() {
-    const [input, setInput] = useState('');
+    const [inputTitle, setInputTitle] = useState('');
+    const [inputDescription, setInputDescription] = useState('');
     const [data, setData] = useState([]);
 
     useEffect(()=>{
@@ -15,14 +16,30 @@ function Event() {
 
     function HandleSubmit(e) {
         e.preventDefault();
-        input && setData([...data, input]);
-        setInput('');
+        let submitted = [inputTitle, inputDescription]
+        submitted && setData([...data, submitted]);
+        setInputTitle('');
+        setInputDescription('');
+    }
+
+    function deleteEvent(e){ //funky shit sem virkar ekki
+        e.preventDefault();
+        let key = e.target.value;
+        let newData = JSON.parse(window.localStorage.getItem("event"));
+        newData -= newData[key];
+        window.localStorage.removeItem('event')
+        window.localStorage.setItem("event", JSON.stringify(newData));
     }
 
     return (
         <form onSubmit={HandleSubmit}>
             <div>
-                <input type="text" value={input} onChange={e => setInput(e.target.value)} />
+                <div>
+                    <input type="title" placeholder="Event title" value={inputTitle} onChange={e =>  setInputTitle(e.target.value)} />
+                </div>
+                <div>
+                    <textarea type="description" placeholder="Event description" value={inputDescription} onChange={e => setInputDescription(e.target.value)}></textarea>
+                </div>
             </div>
             <div>
                 <button type="submit">Create event</button>
@@ -30,7 +47,11 @@ function Event() {
             <div>
                 <ul className="card-container">
                     {data.map((item, ke) => (
-                       <div key={ke} className="card">{item}</div>
+                       <div key={ke} className="card">
+                        <h1>{item[0]}</h1>
+                        <p>{item[1]}</p>
+                        <button type="delete" value={ke} onClick={deleteEvent}>Delete event</button>
+                        </div>
                     ))
                     }
                 </ul>
