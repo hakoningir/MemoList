@@ -1,33 +1,52 @@
 .card-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);    
+    grid-template-columns: repeat(3, 1fr);
 }
-.card{
+
+.card {
     position: relative;
     padding: 0.5rem;
     margin: 5rem;
     width: 75%;
     height: 50%;
     border: 1px solid;
-    background-color:darkseagreen;
+    background-color: darkseagreen;
     border-top-left-radius: 15%;
     border-bottom-right-radius: 15%;
 }
 
-input{
+input {
     margin-top: 3rem;
     margin-bottom: 1rem;
 }
-textarea{
+
+textarea {
     margin-bottom: 3rem;
 }
 
 button {
-    background-color:darkseagreen;
+    background-color: darkseagreen;
     border: none;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-  }
+}
+
+.titlemsg {
+    color: red;
+}
+
+.descriptionmsg {
+    color: red;
+}
+
+img{
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+img:hover{
+    background: red;
+}
