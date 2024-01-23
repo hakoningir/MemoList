@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import './Events.css';
 function Event() {
-    const [input, setInput] = useState('');
+    const [inputTitle, setInputTitle] = useState('');
+    const [inputDescription, setInputDescription] = useState('');
     const [data, setData] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         data.length > 0 && window.localStorage.setItem("event", JSON.stringify(data));
-    },[data]);
+    }, [data]);
 
     useEffect(() => {
         const storedData = JSON.parse(window.localStorage.getItem("event"));
@@ -15,28 +16,56 @@ function Event() {
 
     function HandleSubmit(e) {
         e.preventDefault();
-        input && setData([...data, input]);
-        setInput('');
+        let submitted = [inputTitle, inputDescription]
+        submitted && setData([...data, submitted]);
+        setInputTitle('');
+        setInputDescription('');
     }
 
-    return (
-        <form onSubmit={HandleSubmit}>
+    function deleteEvent(key) {
+        setData(data.filter((_, index) => index !== key));
+      }
+    
+      return (
+        <>
+          <form onSubmit={HandleSubmit}>
             <div>
-                <input type="text" value={input} onChange={e => setInput(e.target.value)} />
+              <div>
+                <input
+                  type="title"
+                  placeholder="Event title"
+                  value={inputTitle}
+                  onChange={(e) => setInputTitle(e.target.value)}
+                />
+              </div>
+              <div>
+                <textarea
+                  type="description"
+                  placeholder="Event description"
+                  value={inputDescription}
+                  onChange={(e) => setInputDescription(e.target.value)}
+                ></textarea>
+              </div>
             </div>
             <div>
-                <button type="submit">Create event</button>
+              <button type="submit">Create event</button>
             </div>
-            <div>
-                <ul className="card-container">
-                    {data.map((item, ke) => (
-                       <div key={ke} className="card">{item}</div>
-                    ))
-                    }
-                </ul>
-            </div>
-        </form>
-    );
+          </form>
+          <div>
+            <ul className="card-container">
+              {data.map((item, ke) => (
+                <div key={ke} className="card">
+                  <h1>{item[0]}</h1>
+                  <p>{item[1]}</p>
+                  <button type="delete" value={ke} onClick={() => deleteEvent(ke)}>
+                    Delete event
+                  </button>
+                </div>
+              ))}
+            </ul>
+          </div>
+        </>
+      );
 }
 
 export default Event;
