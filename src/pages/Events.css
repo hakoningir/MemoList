@@ -7,12 +7,22 @@
     position: relative;
     padding: 0.5rem;
     margin: 5rem;
-    width: 75%;
+    width: 28rem;
     height: 50%;
     border: 1px solid;
     background-color: darkseagreen;
     border-top-left-radius: 15%;
     border-bottom-right-radius: 15%;
+}
+
+h1{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+p{
+    text-overflow: ellipsis;
+    overflow: hidden;    
 }
 
 input {

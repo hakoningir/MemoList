@@ -7,6 +7,7 @@ function Event() {
   const [data, setData] = useState([]);
   const [titlemsg, setTitlemsg] = useState('');
   const [descriptionmsg, setDescriptionmsg] = useState('');
+
   useEffect(() => {
     data.length > 0 && window.localStorage.setItem("event", JSON.stringify(data));
   }, [data]);
@@ -18,8 +19,9 @@ function Event() {
 
   function HandleSubmit(e) {
     e.preventDefault();
-    // Cannot create an event without title and/or description
-    if (inputTitle.length > 0 && inputDescription.length > 0) {
+    
+    // Cannot create an event without title and/or description and input cannot be white space
+    if (inputTitle.length > 0 && inputDescription.length > 0 && inputTitle.trim() !== '' && inputDescription.trim() !== '') {
       let submitted = [inputTitle, inputDescription];
       submitted && setData([...data, submitted]);
       setInputTitle('');
@@ -27,13 +29,21 @@ function Event() {
       setTitlemsg('');
       setDescriptionmsg('');
     }
-    if (inputTitle.length === 0) setTitlemsg("Must provide title");
-    if (inputDescription.length === 0) setDescriptionmsg("Must provide description");
-    console.log(titlemsg, descriptionmsg);
+    // remove warning 
+    if(inputDescription.length > 0) setDescriptionmsg('');
+    if(inputTitle.length > 0) setTitlemsg('');
+    
+    // set warning if input is not valid
+    if(inputDescription.trim() === '') setDescriptionmsg("Must provide description");
+    if(inputTitle.trim() === '')setTitlemsg("Must provide title");
+    if(inputTitle.length === 0) setTitlemsg("Must provide title");
+    if(inputDescription.length === 0) setDescriptionmsg("Must provide description");
   }
+
   function deleteEvent(key) {
     setData(data.filter((_, index) => index !== key));
   }
+
 
   return (
     <>
@@ -66,6 +76,7 @@ function Event() {
         <ul className="card-container">
           {data.map((item, ke) => (
             <div key={ke} className="card">
+              {/* <button>Edit</button> */}
               <h1>{item[0]}</h1>
               <p>{item[1]}</p>
               <button type="delete" value={ke} onClick={() => deleteEvent(ke)} >
