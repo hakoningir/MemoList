@@ -1,41 +1,78 @@
+*{
+    background-color: rgb(83, 79, 79);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
     position: relative;
     padding: 0.5rem;
     margin: 5rem;
     width: 28rem;
     height: 50%;
-    border: 1px solid;
-    background-color: darkseagreen;
+    border: 5px solid;
+    background-color: rgb(87, 123, 123);
     border-top-left-radius: 15%;
     border-bottom-right-radius: 15%;
 }
 
-h1{
-    text-overflow: ellipsis;
-    overflow: hidden;
+.inputContainer{
+    max-width: 20%;
+    display: flex;
+    flex-direction: column;
+    transform: translate(200%, 0);
 }
 
-p{
-    text-overflow: ellipsis;
-    overflow: hidden;    
+.titlemsg{
+    margin: 0.3rem;
 }
 
-input {
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+.title {
+    border: none;
+    height: 2rem;
+    font-size: large;
+    background-color: rgb(87, 123, 123);
 }
 
-textarea {
+.descriptionmsg{
+    margin: 0.3rem;
+}
+
+.description {
+    border: none;
     margin-bottom: 3rem;
+    background-color: rgb(87, 123, 123);
+}
+
+textarea{
+    resize: none;
+}
+
+.editTitle {
+    grid-column: 2;
+    font-size: larger;
+    font-weight: 700;
+    border: none;
+    background-color: rgb(87, 123, 123);
+}
+
+.editDescription {
+    grid-column: 2;
+    grid-row: 2;
+    border: none;
+    background-color: rgb(87, 123, 123);
 }
 
 button {
-    background-color: darkseagreen;
+    grid-column: 3;
+    grid-row: 3;
+    background-color: rgb(87, 123, 123);
     border: none;
     padding: 15px 32px;
     text-align: center;
@@ -44,19 +81,27 @@ button {
     font-size: 16px;
 }
 
+.createEvent:active{
+    background-color: rgb(46, 50, 47);
+}
+
 .titlemsg {
-    color: red;
+    color: black;
 }
 
 .descriptionmsg {
-    color: red;
+    color: black;
 }
 
 img{
+    background-color: rgb(87, 123, 123);
     width: 2rem;
     height: 2rem;
     cursor: pointer;
 }
 img:hover{
-    background: red;
+    background: rgb(32, 154, 101);
+}
+img:active{
+    background: rgb(19, 139, 47);
 }

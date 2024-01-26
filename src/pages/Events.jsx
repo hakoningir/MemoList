@@ -5,8 +5,8 @@ function Event() {
   const [inputTitle, setInputTitle] = useState('');
   const [inputDescription, setInputDescription] = useState('');
   const [data, setData] = useState([]);
-  const [titlemsg, setTitlemsg] = useState('');
-  const [descriptionmsg, setDescriptionmsg] = useState('');
+  const [isTitle, setIsTitle] = useState(false);
+  const [IsDescription, setIsDescription] = useState(false);
 
   useEffect(() => {
     data.length > 0 && window.localStorage.setItem("event", JSON.stringify(data));
@@ -19,68 +19,83 @@ function Event() {
 
   function HandleSubmit(e) {
     e.preventDefault();
-    
+
     // Cannot create an event without title and/or description and input cannot be white space
     if (inputTitle.length > 0 && inputDescription.length > 0 && inputTitle.trim() !== '' && inputDescription.trim() !== '') {
       let submitted = [inputTitle, inputDescription];
       submitted && setData([...data, submitted]);
       setInputTitle('');
       setInputDescription('');
-      setTitlemsg('');
-      setDescriptionmsg('');
+      setIsTitle('');
+      setIsDescription('');
     }
     // remove warning 
-    if(inputDescription.length > 0) setDescriptionmsg('');
-    if(inputTitle.length > 0) setTitlemsg('');
-    
+    if (inputDescription.length > 0) setIsDescription('');
+    if (inputTitle.length > 0) setIsTitle('');
+
     // set warning if input is not valid
-    if(inputDescription.trim() === '') setDescriptionmsg("Must provide description");
-    if(inputTitle.trim() === '')setTitlemsg("Must provide title");
-    if(inputTitle.length === 0) setTitlemsg("Must provide title");
-    if(inputDescription.length === 0) setDescriptionmsg("Must provide description");
+    if (inputDescription.trim() === '') setIsDescription(true);
+    if (inputTitle.trim() === '') setIsTitle(true);
+    if (inputTitle.length === 0) setIsTitle(true);
+    if (inputDescription.length === 0) setIsDescription(true);
   }
+  let titlemsg = "Must set a title";
+  let descriptionmsg = "Must set a description";
 
   function deleteEvent(key) {
     setData(data.filter((_, index) => index !== key));
   }
 
+  function editEventTitle(key, value) {
+    setData(data.map((d, i) => { if (i === key) { d[0] = value; } return d }))
+  }
+
+  function editEventDescription(key, value) {
+    setData(data.map((d, i) => { if (i === key) { d[1] = value; } return d }))
+  }
 
   return (
     <>
       <form onSubmit={HandleSubmit}>
-        <div>
-          <div>
-            {titlemsg && <p className="titlemsg">{titlemsg}</p>}
-            <input
-              type="title"
-              placeholder="Event title"
-              value={inputTitle}
-              onChange={(e) => setInputTitle(e.target.value)}
-            />
-          </div>
-          <div>
-            {descriptionmsg && <p className="descriptionmsg">{descriptionmsg}</p>}
-            <textarea
-              type="description"
-              placeholder="Event description"
-              value={inputDescription}
-              onChange={(e) => setInputDescription(e.target.value)}
-            ></textarea>
-          </div>
+        <div className="inputContainer">
+          <p
+            className="titlemsg"
+            style={{ visibility: isTitle ? "visible" : "hidden" }}>
+            {titlemsg}
+          </p>
+          <input
+            type="title"
+            className="title"
+            placeholder="Event title"
+            value={inputTitle}
+            onChange={(e) => setInputTitle(e.target.value)}
+          />
+          <p
+            className="descriptionmsg"
+            style={
+              { visibility: IsDescription ? "visible" : "hidden" }}>
+            {descriptionmsg}
+          </p>
+          <textarea
+            type="description"
+            className="description"
+            placeholder="Event description"
+            value={inputDescription}
+            onChange={(e) => setInputDescription(e.target.value)}
+          ></textarea>
         </div>
         <div>
-          <button type="submit">Create event</button>
+          <button type="submit" className="createEvent">Create event</button>
         </div>
       </form>
       <div>
         <ul className="card-container">
           {data.map((item, ke) => (
             <div key={ke} className="card">
-              {/* <button>Edit</button> */}
-              <h1>{item[0]}</h1>
-              <p>{item[1]}</p>
+              <input className="editTitle" defaultValue={item[0]} onChange={e => editEventTitle(ke, e.target.value)}></input>
+              <textarea className="editDescription" defaultValue={item[1]} onChange={e => editEventDescription(ke, e.target.value)}></textarea>
               <button type="delete" value={ke} onClick={() => deleteEvent(ke)} >
-                <img src={trashcan} alt=""/>
+                <img src={trashcan} alt="" />
               </button>
             </div>
           ))}
