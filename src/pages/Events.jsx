@@ -47,11 +47,16 @@ function Event() {
   }
 
   function editEventTitle(key, value) {
-    setData(data.map((d, i) => { if (i === key) { d[0] = value; } return d }))
+    setData(data.map((d, i) => { if (i === key) { d[0] = value; } return d }));
   }
 
   function editEventDescription(key, value) {
-    setData(data.map((d, i) => { if (i === key) { d[1] = value; } return d }))
+    setData(data.map((d, i) => { if (i === key) { d[1] = value; } return d }));
+  }
+  const [key, setKey] = useState(0);
+  function onReverse() {
+    setData([...data].reverse());
+    setKey(prevKey => prevKey + 1); // To force re-render
   }
 
   return (
@@ -88,7 +93,8 @@ function Event() {
           <button type="submit" className="createEvent">Create event</button>
         </div>
       </form>
-      <div>
+      <div key={key}>
+        <button className="reverseCards" onClick={() => onReverse()}>Reverse order</button>
         <ul className="card-container">
           {data.map((item, ke) => (
             <div key={ke} className="card">
