@@ -5,4 +5,6 @@ Hægt er að gera eftirfarandi:
 - Eyða viðburði.
 - Snúa við röð á viðburðum, þ.e. nýjast fyrst eða elst fyrst.\
 
-Í þessu verkefni er ég ekkert endilega að gera flókna virkni eða viðmót heldur er ég frekar að leggja áherslu á undirstöðuatriðin í react.
+Í þessu verkefni er ég ekkert endilega að gera flókna virkni eða viðmót heldur er ég frekar að leggja áherslu á undirstöðuatriðin í react.\
+
+Verkefnið er hostað hér: https://jazzy-horse-75ad27.netlify.app/
