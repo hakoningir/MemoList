@@ -48,11 +48,15 @@ function Event() {
   }
 
   function editEventTitle(key, value) {
-    setData(data.map((d, i) => { if (i === key) { d[0] = value; } return d }));
+    if(value.trim() !== ""){
+      setData(data.map((d, i) => { if (i === key) { d[0] = value; } return d }));
+    }
   }
 
   function editEventDescription(key, value) {
-    setData(data.map((d, i) => { if (i === key) { d[1] = value; } return d }));
+    if(value.trim() !== ""){
+      setData(data.map((d, i) => { if (i === key) { d[1] = value; } return d }));
+    }
   }
   const [key, setKey] = useState(0);
   function onReverse() {
@@ -99,10 +103,18 @@ function Event() {
         <ul className="card-container">
           {data.map((item, ke) => (
             <div key={ke} className="card">
-              <input className="editTitle" defaultValue={item[0]} onChange={e => editEventTitle(ke, e.target.value)}></input>
-              <textarea className="editDescription" defaultValue={item[1]} onChange={e => editEventDescription(ke, e.target.value)}></textarea>
-              <button type="delete" value={ke} onClick={() => deleteEvent(ke)} >
-                <img src={trashcan} alt="" />
+              <input  className="editTitle" 
+                      defaultValue={item[0]} 
+                      placeholder="Must set a title"
+                      onChange={e => editEventTitle(ke, e.target.value)}
+                      onFocus={e => {if(e.target.value.trim() === ""){editEventTitle(ke, item[0])}}}/>
+              <textarea className="editDescription" 
+                      defaultValue={item[1]}
+                      placeholder="Must set a description"
+                      onChange={e => editEventDescription(ke, e.target.value)}
+                      onFocus={e => {if(e.target.value.trim() === ""){editEventDescription(ke, item[1])}}}/>
+              <button className="deleteEvent" type="delete" value={ke} onClick={() => deleteEvent(ke)}>
+                <img src={trashcan} alt=""/>
               </button>
             </div>
           ))}

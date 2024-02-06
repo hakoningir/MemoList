@@ -58,12 +58,14 @@ textarea{
 .editTitle {
     font-size: larger;
     text-align: center;
+    padding: 1rem;
     border: none;
     background-color: rgb(79, 80, 80);
 }
 
 .editDescription {
     text-align: center;
+    padding: 0.5rem;
     border: none;
     background-color: rgb(79, 80, 80);
 }
@@ -80,11 +82,18 @@ button {
     border-radius: 5px;
 }
 
-.createEvent:active{
+.deleteEvent {
+    max-width:min-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
+
+button:hover{
     background-color: rgb(46, 50, 47);
 }
-.reverseCards:active{
-    background-color: rgb(46, 50, 47);
+button:active{
+    background-color: rgb(29, 30, 29);
 }
 .titlemsg {
     color: white;
@@ -95,14 +104,9 @@ button {
 }
 
 img{
-    background-color: rgb(79, 80, 80);
+    filter: invert(1);
+    background-color: transparent;
     width: 2rem;
     height: 2rem;
     cursor: pointer;
-}
-img:hover{
-    background: rgb(62, 64, 63);
-}
-img:active{
-    background: rgb(122, 126, 123);
 }
