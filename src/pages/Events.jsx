@@ -44,6 +44,7 @@ function Event() {
 
   function deleteEvent(key) {
     setData(data.filter((_, index) => index !== key));
+    setKey(prevKey => prevKey + 1); // To force re-render
   }
 
   function editEventTitle(key, value) {
